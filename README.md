@@ -8,7 +8,7 @@ Welcome to the Titan Robotics programming subteam.
 
 1. Checkout Training2022/git-lesson
 2. Create a branch off of that branch called `<yourname>-git-lesson`
-3. Push a commit that adds a file named <yourname>.txt to your new branch
+3. Push a commit that adds a file named \<yourname>.txt to your new branch
 4. Merge your branch into Training2022/git-lesson and make sure this change is pushed
 
 ## Links and Resources

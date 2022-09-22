@@ -57,3 +57,19 @@ You aren't expected to go check them out right now, but they're here for anyone 
 ### Limelight Tuning and Other Sensors
 
 * [Limelight Documentation](https://docs.limelightvision.io/en/latest/vision_pipeline_tuning.html)
+
+## Git Review
+
+Create a branch: `git checkout -b your-branch-name`
+
+Stage changes: `git add .`
+
+Commit staged changes: `git commit -m "a short description of your changes"`
+
+Publish a new branch: `git push -u origin your-branch-name`
+
+Switch to another existing branch: `git checkout other-branch-name`
+
+Check for updates: `git pull`
+
+Merge a branch into the branch you are on: `git merge your-branch-name`

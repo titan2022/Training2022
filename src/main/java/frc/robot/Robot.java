@@ -4,7 +4,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,6 +19,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+  private final WPI_TalonFX motor = new WPI_TalonFX(1);
+  private final XboxController xbox = new XboxController(0);
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -49,11 +58,20 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    motor.configAllSettings(new TalonFXConfiguration());
+    motor.setNeutralMode(NeutralMode.Coast);
+  }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if(xbox.getLeftBumperPressed())
+      motor.setNeutralMode(NeutralMode.Brake);
+    else if(xbox.getRightBumperPressed())
+      motor.setNeutralMode(NeutralMode.Coast);
+    motor.set(ControlMode.PercentOutput, xbox.getRightY() * 0.5);
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override

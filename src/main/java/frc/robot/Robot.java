@@ -5,6 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,6 +20,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+  WPI_TalonFX motor = new WPI_TalonFX(2);
+
+  XboxController xbox = new XboxController(0);
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -49,11 +59,35 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+
+    motor.setInverted(true);
+
+    motor.setNeutralMode(NeutralMode.Brake);
+
+    motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+
+    motor.setSensorPhase(false);
+
+    motor.configIntegratedSensorInitializationStrategy(SensorIntializationStrategy.BootToAbsolutePosition);
+
+    motor.set(ControlMode.Velocity, 0);
+
+
+
+
+  }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (xbox.getBButtonPressed()){
+      motor.set(ControlMode.Velocity, 0.75);
+    }
+    else if (xbox.getBButtonReleased()){
+        motor.set(ControlMode.Velocity, -0.25);
+    }
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override

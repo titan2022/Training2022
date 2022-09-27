@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.WPI_TalonFX;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+  WPI_TalonFX motor = new WPI_TalonFX(2);
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -49,7 +51,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    motor.run(ControlMode.PercentOutput, 0.5);
+  }
 
   /** This function is called periodically during operator control. */
   @Override

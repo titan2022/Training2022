@@ -2,6 +2,12 @@
 
 Welcome to the Titan Robotics programming subteam.
 
+## Contents
+
+* [Homework](#homework)
+* [Links and Resources](#links-and-resources)
+* [Quick Reference](#quick-reference)
+
 ## Homework
 
 ### VSCode and Git
@@ -10,6 +16,10 @@ Welcome to the Titan Robotics programming subteam.
 2. Create a branch off of that branch called `<yourname>-git-lesson`
 3. Push a commit that adds a file named \<yourname>.txt to your new branch
 4. Merge your branch into Training2022/git-lesson and make sure this change is pushed
+
+### Introduction to Motors and Controllers
+
+In a branch called `yourname-motors` off of the `motors` branch, write a program that uses some sort of input from an `XboxController` to control a `WPI_TalonFX` motor. Explicitly set the neutral mode of the motor. Don't forget to push your code (you don't need to merge the branch). For an extra (optional) challenge, create multiple motors and control them using a joystick, a button, and a trigger.
 
 ## Links and Resources
 
@@ -58,7 +68,9 @@ You aren't expected to go check them out right now, but they're here for anyone 
 
 * [Limelight Documentation](https://docs.limelightvision.io/en/latest/vision_pipeline_tuning.html)
 
-## Git Review
+## Quick Reference
+
+### Git Review
 
 Create a branch: `git checkout -b your-branch-name`
 
@@ -73,3 +85,42 @@ Switch to another existing branch: `git checkout other-branch-name`
 Check for updates: `git pull`
 
 Merge a branch into the branch you are on: `git merge your-branch-name`
+
+### Motors
+
+`WPI_TalonFX` constructor: `WPI_TalonFX(int id)` (`id` is the CAN id of the motor controller)
+
+Control Modes:
+* `motor.set(ControlMode.PercentOutput, pct)` - -1.0 < `pct` < 1.0
+* `motor.set(ControlMode.Velocity, vel)` - `vel` is in ticks per 100ms (requires an encoder and a PID index to be selected)
+* `motor.set(ControlMode.Position, pos)` - `pos` is in ticks (requires an encoder and a PID index to be selected)
+
+Neutral Modes:
+* `motor.setNeutralMode(NeutralMode.Brake)` motor provides resistance to turning
+* `motor.setNeutralMode(NeutralMode.Coast)` motor coasts to a stop without providing resistance
+
+Inverting Directions:
+* `motor.setInverted(true/false)`
+* `motor.setSensorPhase(true/false)`
+
+Encoder Initialization:
+* `motor.configSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, 0)` zeros the integrated encoder on startup
+* `motor.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition, 0)` uses absolute orientation for the integrated encoder
+
+Selecting an Encoder and PID index:
+* `motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, idx, 0)` selects the integrated encoder for PID index `idx` (usually 0)
+* `motor.selectProfileSlot(idx, 0)` tells the motor to use PID index `idx` (usually 0)
+
+### Controllers / Gamepads
+
+`XboxController` constructor: `XboxController(int port)` (`port` is the USB port the controller is plugged into)
+
+Joysticks: `xbox.getLeftX()`, `xbox.getLeftY()`, `xbox.getRightX()`, and `xbox.getRightY()` return values from -1.0 to +1.0. The left Y stick is reversed.
+
+Buttons:
+* `xbox.getXButton()` returns `true` if the X button is currently pressed
+* `xbox.getXButtonPressed()` returns `true` if the X button was pressed since the last time it was checked
+* `xbox.getXButtonReleased()` returns `true` if the X button was released since the last time it was checked
+* `xbox.getLeftTrigger()`, `xbox.getRightTrigger()`, `xbox.getLeftStickButton()`, and `xbox.getRightStickButton()` work the same way, with the same three variants.
+
+Triggers: `xbox.getLeftTriggerAxis()` and `xbox.getRightTriggerAxis()` return values from 0.0 to 1.0.

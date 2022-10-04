@@ -4,7 +4,14 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,6 +20,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+  WPI_TalonFX motor = new WPI_TalonFX(2);
+  XboxController  xbox = new XboxController(0);
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -49,15 +58,45 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    /**This can be used for movement */
+    motor.set(ControlMode.PercentOutput, 0.5);
+    //**OR This can be used for movement*/
+    motor.set(ControlMode.Position , 1024);
+
+
+    //**Makes the motors invert, so that forward is forward. */
+    motor.setInverted(true);
+    //**Another way to set the correct way of forward This and the code above do the same thing*/
+    motor.setSensorPhase(false);
+    //**This would set the neutral space, when the velocity is 0. In this case, the neutral position of the motor is BRAKE, but you can also set it to coast, which just leaves the motor in neutral and lets it follow gravity. */
+    motor.setNeutralMode(NeutralMode. Brake);
+    //**Every motor has a true 0, a true north that is set at the factory. With this code we can set whatever we want the motor to be when we turn it on; this changes the true 0 momentarily, for your sake. */
+    motor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+    //**Sets Feedback Sensor name to one that's in the system. */
+    motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+    //**OR this can be used for movement*/ //**This sets the speed of the motor to 0, or the NeutralMode */
+    motor.set(ControlMode.Velocity , 0);
+  }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //**If b button on the controller is pressed*/
+    if(xbox.getXButtonPressed()){
+      //**This command runs the motor */
+      motor.set(ControlMode.PercentOutput, 0.55);//**If x button is pressed, go forward 25% */
+    }
+    else if(xbox.getBButtonReleased()){ //**If the b button is released, go backwards 25% */
+      motor.set(ControlMode.PercentOutput, 0.80);
+    }
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+
+  }
 
   /** This function is called periodically when disabled. */
   @Override

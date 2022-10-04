@@ -1,0 +1,53 @@
+package frc.robot.subystems;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class LiftArmSubsystem extends SubsystemBase{
+
+    public static final int LIFT_MOTOR_PORT = 0;
+    public static final int CLAW_MOTOR_PORT = 1;
+    public static final int TICKS_PER_REVOLUTION = 4096;
+    public static final double GEAR_CIRCUMFERENCE_MM = 70;
+    private static final int TICKS_PER_METER = (int) (TICKS_PER_REVOLUTION / GEAR_CIRCUMFERENCE_MM * 1000);
+
+    private WPI_TalonFX liftMotor;
+    private WPI_TalonFX clawMotor;
+    private DifferentialDriveKinematics kinematics;
+
+    public differentialDriveSubystem() {
+        liftMotor = new WPI_TalonFX(LIFT_MOTOR_PORT);
+        clawMotor = new WPI_TalonFX(CLAW_MOTOR_PORT);
+    }
+
+    public void moveArm(double velocity) {
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(velocity, 0, 0);
+        DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+        double liftMotorSpeed = mpsToTphms(wheelSpeeds.leftMetersPerSecond);
+        liftMotor.set(ControlMode.Velocity, liftMotorSpeed);
+    }
+
+    public void moveClaw(double velocity) {
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(velocity, 0, 0);
+        DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+        double clawMotorSpeed = mpsToTphms(wheelSpeeds.leftMetersPerSecond);
+        clawMotor.set(ControlMode.Velocity, clawMotorSpeed);
+    }
+
+    public void stopArm() {
+        liftMotor.set(ControlMode.PercentOutput, 0);
+    }
+
+    public void stopClaw() {
+        clawMotor.set(ControlMode.PercentOutput, 0);
+    }
+
+    private static double mpsToTphms(double x) {
+        return (x * TICKS_PER_METER / 10) / (GEAR_CIRCUMFERENCE_MM / 1000);
+    }
+}

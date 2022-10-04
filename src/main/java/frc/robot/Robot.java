@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.XboxController;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -12,6 +13,9 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+=======
+import edu.wpi.first.wpilibj.WPI_TalonFX;
+>>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,8 +25,11 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
  */
 public class Robot extends TimedRobot {
   WPI_TalonFX motor = new WPI_TalonFX(2);
+<<<<<<< HEAD
 
   XboxController xbox = new XboxController(0);
+=======
+>>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -60,6 +67,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+<<<<<<< HEAD
 
     motor.setInverted(true);
 
@@ -76,6 +84,9 @@ public class Robot extends TimedRobot {
 
 
 
+=======
+    motor.run(ControlMode.PercentOutput, 0.5);
+>>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
   }
 
   /** This function is called periodically during operator control. */

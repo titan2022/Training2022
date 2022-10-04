@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.XboxController;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -13,6 +14,9 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+=======
+import edu.wpi.first.wpilibj.WPI_TalonFX;
+>>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
 =======
 import edu.wpi.first.wpilibj.WPI_TalonFX;
 >>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
@@ -26,8 +30,11 @@ import edu.wpi.first.wpilibj.WPI_TalonFX;
 public class Robot extends TimedRobot {
   WPI_TalonFX motor = new WPI_TalonFX(2);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   XboxController xbox = new XboxController(0);
+=======
+>>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
 =======
 >>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
   /**
@@ -68,6 +75,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     motor.setInverted(true);
 
@@ -84,6 +92,9 @@ public class Robot extends TimedRobot {
 
 
 
+=======
+    motor.run(ControlMode.PercentOutput, 0.5);
+>>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
 =======
     motor.run(ControlMode.PercentOutput, 0.5);
 >>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98

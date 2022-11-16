@@ -4,16 +4,20 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDriveSubsystemTraining;
 
-public class ManualDriveCommand extends CommandBase {
-    private DifferentialDriveSubsystemTraining drive;
-    private XboxController xbox;
-    private static final double MAX_SPEED = 0.5;
+public class TankDriveCommand extends CommandBase {
+    private final DifferentialDriveSubsystemTraining drive;
+    private final XboxController xbox;
+    private final double maxSpeed;
     //private static final double MAX_ROTATION = 2 * Math.PI;
     
-    public ManualDriveCommand(DifferentialDriveSubsystemTraining drive, XboxController xbox) {
+    public TankDriveCommand(DifferentialDriveSubsystemTraining drive, XboxController xbox, double maxSpeed) {
         this.drive = drive;
         this.xbox = xbox;
+        this.maxSpeed = maxSpeed;
         addRequirements(drive);
+    }
+    public TankDriveCommand(DifferentialDriveSubsystemTraining drive, XboxController xbox) {
+        this(drive, xbox, 0.5);
     }
 
     @Override
@@ -23,8 +27,8 @@ public class ManualDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double left = -xbox.getLeftY() * MAX_SPEED;
-        double right = -xbox.getRightY() * MAX_SPEED;
+        double left = -xbox.getLeftY() * maxSpeed;
+        double right = -xbox.getRightY() * maxSpeed;
         drive.tank(left, right);
     }
 

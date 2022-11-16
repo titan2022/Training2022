@@ -5,21 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import edu.wpi.first.wpilibj.XboxController;
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-=======
-import edu.wpi.first.wpilibj.WPI_TalonFX;
->>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
-=======
-import edu.wpi.first.wpilibj.WPI_TalonFX;
->>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.subsystems.DifferentialDriveSubsystemTraining;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,15 +17,9 @@ import edu.wpi.first.wpilibj.WPI_TalonFX;
  * project.
  */
 public class Robot extends TimedRobot {
-  WPI_TalonFX motor = new WPI_TalonFX(2);
-<<<<<<< HEAD
-<<<<<<< HEAD
-
+  DifferentialDriveSubsystemTraining drive = new DifferentialDriveSubsystemTraining();
   XboxController xbox = new XboxController(0);
-=======
->>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
-=======
->>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -52,7 +35,9 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
@@ -74,42 +59,12 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-    motor.setInverted(true);
-
-    motor.setNeutralMode(NeutralMode.Brake);
-
-    motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-
-    motor.setSensorPhase(false);
-
-    motor.configIntegratedSensorInitializationStrategy(SensorIntializationStrategy.BootToAbsolutePosition);
-
-    motor.set(ControlMode.Velocity, 0);
-
-
-
-
-=======
-    motor.run(ControlMode.PercentOutput, 0.5);
->>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
-=======
-    motor.run(ControlMode.PercentOutput, 0.5);
->>>>>>> 4021390b2bcfdded7ca600e98f015c01a20c8e98
+    new ArcadeDriveCommand(drive, xbox).schedule();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    if (xbox.getBButtonPressed()){
-      motor.set(ControlMode.Velocity, 0.75);
-    }
-    else if (xbox.getBButtonReleased()){
-        motor.set(ControlMode.Velocity, -0.25);
-    }
-  }
+  public void teleopPeriodic() {}
 
   /** This function is called once when the robot is disabled. */
   @Override

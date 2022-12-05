@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDriveSubsystemTraining;
 
@@ -9,11 +8,10 @@ public class PS4TankDriveCommand extends CommandBase {
     private final DifferentialDriveSubsystemTraining drive;
     private final PS4Controller xbox;
     private final double maxSpeed;
-    //private static final double MAX_ROTATION = 2 * Math.PI;
     
-    public PS4TankDriveCommand(DifferentialDriveSubsystemTraining drive, PS4Controller xbox, double maxSpeed) {
+    public PS4TankDriveCommand(DifferentialDriveSubsystemTraining drive, PS4Controller ps4, double maxSpeed) {
         this.drive = drive;
-        this.xbox = xbox;
+        this.xbox = ps4;
         this.maxSpeed = maxSpeed;
         addRequirements(drive);
     }

@@ -9,9 +9,9 @@ public class PS4ArcadeDriveCommand extends CommandBase {
     private final PS4Controller xbox;
     private final double maxSpd;
 
-    public PS4ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, PS4Controller xbox, double maxSpd) {
+    public PS4ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, PS4Controller ps4, double maxSpd) {
         this.drive = drive;
-        this.xbox = xbox;
+        this.xbox = ps4;
         this.maxSpd = maxSpd;
         addRequirements(drive);
     }

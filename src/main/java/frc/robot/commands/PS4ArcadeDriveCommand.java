@@ -1,21 +1,21 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDriveSubsystemTraining;
 
-public class ArcadeDriveCommand extends CommandBase {
+public class PS4ArcadeDriveCommand extends CommandBase {
     private final DifferentialDriveSubsystemTraining drive;
-    private final XboxController xbox;
+    private final PS4Controller xbox;
     private final double maxSpd;
 
-    public ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, XboxController xbox, double maxSpd) {
+    public PS4ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, PS4Controller xbox, double maxSpd) {
         this.drive = drive;
         this.xbox = xbox;
         this.maxSpd = maxSpd;
         addRequirements(drive);
     }
-    public ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, XboxController xbox) {
+    public PS4ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, PS4Controller xbox) {
         this(drive, xbox, 1);
     }
 

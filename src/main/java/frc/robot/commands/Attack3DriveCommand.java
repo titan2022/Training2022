@@ -1,22 +1,22 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Attack3;
 import frc.robot.subsystems.DifferentialDriveSubsystemTraining;
 
-public class ArcadeDriveCommand extends CommandBase {
+public class Attack3DriveCommand extends CommandBase {
     private final DifferentialDriveSubsystemTraining drive;
-    private final XboxController xbox;
+    private final Attack3 joy;
     private final double maxSpd;
 
-    public ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, XboxController xbox, double maxSpd) {
+    public Attack3DriveCommand(DifferentialDriveSubsystemTraining drive, Attack3 joy, double maxSpd) {
         this.drive = drive;
-        this.xbox = xbox;
+        this.joy = joy;
         this.maxSpd = maxSpd;
         addRequirements(drive);
     }
-    public ArcadeDriveCommand(DifferentialDriveSubsystemTraining drive, XboxController xbox) {
-        this(drive, xbox, 1);
+    public Attack3DriveCommand(DifferentialDriveSubsystemTraining drive, Attack3 joy) {
+        this(drive, joy, 1);
     }
 
     @Override
@@ -24,8 +24,8 @@ public class ArcadeDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double throttle = - (xbox.getRightY() + xbox.getLeftY());
-        double turn = xbox.getRightX() + xbox.getLeftX();
+        double throttle = joy.getYAxis();
+        double turn = joy.getXAxis();
         double left = throttle + turn;
         double right = throttle - turn;
         double scale = Math.max(Math.abs(left), Math.abs(right));

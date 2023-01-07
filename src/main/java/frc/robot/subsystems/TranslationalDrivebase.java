@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * A drivebase capable of omnidirectional translational motion.
  */
 public interface TranslationalDrivebase extends Subsystem {
+    public void setTestValue(int newVal);
+
     /**
      * Sets the velocity in meters per second.
      * 

@@ -20,38 +20,42 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Unit.*;
 
 public class SwerveDriveRewriteSubsystem extends SubsystemBase {
+
+    public int testValue = 0;
+
+
     private final static int TOP_LEFT_MOTOR_PORT = 6;
     private final static int TOP_RIGHT_MOTOR_PORT = 2;
-    private final static int BOTTOM_LEFT_MOTOR_PORT = 4;
-    private final static int BOTTOM_RIGHT_MOTOR_PORT = 7;
+    private final static int BACK_LEFT_MOTOR_PORT = 4;
+    private final static int BACK_RIGHT_MOTOR_PORT = 7;
 
     private final static int TOP_LEFT_ROTATOR_PORT = 5;
     private final static int TOP_RIGHT_ROTATOR_PORT = 1;
-    private final static int BOTTOM_LEFT_ROTATOR_PORT = 3;
-    private final static int BOTTOM_RIGHT_ROTATOR_PORT = 8;
+    private final static int BACK_LEFT_ROTATOR_PORT = 3;
+    private final static int BACK_RIGHT_ROTATOR_PORT = 8;
 
     private final static int TOP_LEFT_ENCODER_PORT = 35;
     private final static int TOP_RIGHT_ENCODER_PORT = 31;
-    private final static int BOTTOM_LEFT_ENCODER_PORT = 33;
-    private final static int BOTTOM_RIGHT_ENCODER_PORT = 37;
+    private final static int BACK_LEFT_ENCODER_PORT = 33;
+    private final static int BACK_RIGHT_ENCODER_PORT = 37;
 
     public final WPI_TalonFX[] driveMotors = new WPI_TalonFX[] {
             new WPI_TalonFX(TOP_LEFT_MOTOR_PORT),
             new WPI_TalonFX(TOP_RIGHT_MOTOR_PORT),
-            new WPI_TalonFX(BOTTOM_LEFT_MOTOR_PORT),
-            new WPI_TalonFX(BOTTOM_RIGHT_MOTOR_PORT)
+            new WPI_TalonFX(BACK_LEFT_MOTOR_PORT),
+            new WPI_TalonFX(BACK_RIGHT_MOTOR_PORT)
     };
     public final WPI_TalonFX[] rotationalMotors = new WPI_TalonFX[] {
             new WPI_TalonFX(TOP_LEFT_ROTATOR_PORT),
             new WPI_TalonFX(TOP_RIGHT_ROTATOR_PORT),
-            new WPI_TalonFX(BOTTOM_LEFT_ROTATOR_PORT),
-            new WPI_TalonFX(BOTTOM_RIGHT_ROTATOR_PORT)
+            new WPI_TalonFX(BACK_LEFT_ROTATOR_PORT),
+            new WPI_TalonFX(BACK_RIGHT_ROTATOR_PORT)
     };
     public final CANCoder[] encoders = new CANCoder[] {
             new CANCoder(TOP_LEFT_ENCODER_PORT),
             new CANCoder(TOP_RIGHT_ENCODER_PORT),
-            new CANCoder(BOTTOM_LEFT_ENCODER_PORT),
-            new CANCoder(BOTTOM_RIGHT_ENCODER_PORT)
+            new CANCoder(BACK_LEFT_ENCODER_PORT),
+            new CANCoder(BACK_RIGHT_ENCODER_PORT)
     };
 
     private final static double LENGTH = 0;
@@ -61,15 +65,15 @@ public class SwerveDriveRewriteSubsystem extends SubsystemBase {
     private final static double MAX_WHEEL_SPEED = 10;
     private Translation2d TOP_LEFT_POSITION = new Translation2d(-9.25 * IN, 9.25 * IN);
     private Translation2d TOP_RIGHT_POSITION = new Translation2d(9.25 * IN, 9.25 * IN);
-    private Translation2d BOTTOM_LEFT_POSITION = new Translation2d(-9.25 * IN, -9.25 * IN);
-    private Translation2d BOTTOM_RIGHT_POSITION = new Translation2d(9.25 * IN, -9.25 * IN);
-    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(TOP_LEFT_POSITION, TOP_RIGHT_POSITION, BOTTOM_LEFT_POSITION, BOTTOM_RIGHT_POSITION);
+    private Translation2d BACK_LEFT_POSITION = new Translation2d(-9.25 * IN, -9.25 * IN);
+    private Translation2d BACK_RIGHT_POSITION = new Translation2d(9.25 * IN, -9.25 * IN);
+    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(TOP_LEFT_POSITION, TOP_RIGHT_POSITION, BACK_LEFT_POSITION, BACK_RIGHT_POSITION);
 
-    private static final int FRONT_LEFT_OFFSET = -208 + 1024;// 908-1024+2048; // -95
-    private static final int BACK_LEFT_OFFSET = -747 + 1024;// -840;
-    private static final int FRONT_RIGHT_OFFSET = 192 + 1024;// -182+1024+512+1024+2048; // -1200
-    private static final int BACK_RIGHT_OFFSET = 1925 + 1024;// 1287-512-1024+2048;
-    private static final int[] OFFSETS = new int[] { FRONT_LEFT_OFFSET, BACK_LEFT_OFFSET, FRONT_RIGHT_OFFSET,
+    private static final int TOP_LEFT_OFFSET = 1820-1024; //-208 + 1024;// 908-1024+2048; // -95
+    private static final int BACK_LEFT_OFFSET = 1230-1024; //-747 + 1024;// -840;
+    private static final int TOP_RIGHT_OFFSET = 203 + 1024; //192 + 1024;// -182+1024+512+1024+2048; // -1200
+    private static final int BACK_RIGHT_OFFSET = 2010 + 1024; //1925 + 1024;// 1287-512-1024+2048;
+    private static final int[] OFFSETS = new int[] { TOP_LEFT_OFFSET, TOP_RIGHT_OFFSET, BACK_LEFT_OFFSET,
             BACK_RIGHT_OFFSET };
 
     private final static double METERS_PER_TICKS = WHEEL_RADIUS * 2 * Math.PI / FALCON_CPR / GEAR_RATIO;
@@ -77,6 +81,11 @@ public class SwerveDriveRewriteSubsystem extends SubsystemBase {
     private ChassisSpeeds lastVelocity = new ChassisSpeeds();
 
     private final TranslationalDrivebase translationalLock = new TranslationalDrivebase() {
+        @Override
+        public void setTestValue(int newVal) {
+            testValue = newVal;
+        }
+
         @Override
         public void setVelocity(Translation2d velocity) {
             updateVelocity(velocity);
@@ -130,6 +139,10 @@ public class SwerveDriveRewriteSubsystem extends SubsystemBase {
         mainConfig.slot0.kD = 0.2;
         mainConfig.slot0.kF = 0.045;
         mainConfig.slot0.allowableClosedloopError = 20;
+
+        rotatorConfig.slot0.kP = 0.319;
+        rotatorConfig.slot0.kD = 0;
+        rotatorConfig.slot0.kF = 0;
 
         for (int i = 0; i <= 3; i++) {
             driveMotors[i].configFactoryDefault();

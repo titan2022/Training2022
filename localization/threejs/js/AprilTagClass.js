@@ -6,13 +6,16 @@ class AprilTag {
     }
 
     draw() {
-        const geometry = new THREE.BoxGeometry(10.5 * IN, 10.5 * IN, 0.22 * IN);
-        const loader = new THREE.TextureLoader();
-        console.log(this.image)
-        const material = new THREE.MeshBasicMaterial({
-            map: loader.load(this.image),
+        const tagGeom = new THREE.BoxGeometry(0.22 * IN, 10.5 * IN, 10.5 * IN);
+        const tagLoader = new THREE.TextureLoader();
+        const tagMat = new THREE.MeshBasicMaterial({
+            map: tagLoader.load(this.image),
         });
-        const cube = new THREE.Mesh(geometry, material);
-        this.scene.add(cube);
+        const tag = new THREE.Mesh(tagGeom, tagMat);
+        this.scene.add(tag);
+
+        tag.position.x = this.position.x;
+        tag.position.y = this.position.y;
+        tag.position.z = this.position.z;
     }
 }

@@ -1,0 +1,18 @@
+body {
+    margin: 0px;
+}
+
+#viewContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div > label {
+    position: absolute;
+    color: yellow;
+    transform: translateY(-1em);
+}
+
+button {
+    margin: 16px;
+}

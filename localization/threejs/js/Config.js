@@ -30,10 +30,10 @@ const camerasConfig = [ // **RELATIVE TO THE ROBOT CENTER**
         },
         rotation: {
             x: 0,
-            y: -90 * DEG,
+            y: 0 * DEG,
             z: 0
         },
-        name: "right side",
+        name: "front side",
         used: true
     },
     {
@@ -44,10 +44,38 @@ const camerasConfig = [ // **RELATIVE TO THE ROBOT CENTER**
         },
         rotation: {
             x: 0,
-            y: -45 * DEG,
+            y: 180 * DEG,
             z: 0
         },
-        name: "front right corner",
+        name: "back side",
+        used: true
+    },
+    {
+        position: {
+            x: 0,
+            y: 0,
+            z: 0
+        },
+        rotation: {
+            x: 0,
+            y: 90 * DEG,
+            z: 0
+        },
+        name: "left side",
+        used: true
+    },
+    {
+        position: {
+            x: 0,
+            y: 0,
+            z: 0
+        },
+        rotation: {
+            x: 0,
+            y: -90 * DEG,
+            z: 0
+        },
+        name: "right side",
         used: true
     }
 ];

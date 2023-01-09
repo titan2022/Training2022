@@ -91,9 +91,11 @@ class Robot {
             document.body.appendChild(downloadLink);
             downloadLink.click();
 
+            const r = n => Math.round(n * 1000) / 1000;
+
             document.getElementById("robotInfo").innerHTML = `
-                position: ${this.robot.position.x}, ${this.robot.position.y}, ${this.robot.position.z}<br>
-                rotation: ${this.robot.rotation.x}, ${this.robot.rotation.y}, ${this.robot.rotation.z}
+                position: ${r(this.robot.position.x)}, ${r(this.robot.position.y)}, ${r(this.robot.position.z)}<br>
+                rotation: ${r(this.robot.rotation.x)}, ${r(this.robot.rotation.y)}, ${r(this.robot.rotation.z)}
             `;
         });
     }

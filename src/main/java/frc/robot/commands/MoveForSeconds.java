@@ -23,7 +23,7 @@ public class MoveForSeconds extends CommandBase {
     @Override
     public void execute() {
         double angle = pigeon.getAngle() * (Math.PI / 180);
-        Translation2d newVelocity = new Translation2d()
+        Translation2d newVelocity = new Translation2d();
     }
 
     @Override

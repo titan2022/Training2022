@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -67,7 +68,13 @@ public class SwerveDriveRewriteSubsystem extends SubsystemBase {
     private Translation2d TOP_RIGHT_POSITION = new Translation2d(9.25 * IN, 9.25 * IN);
     private Translation2d BACK_LEFT_POSITION = new Translation2d(-9.25 * IN, -9.25 * IN);
     private Translation2d BACK_RIGHT_POSITION = new Translation2d(9.25 * IN, -9.25 * IN);
-    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(TOP_LEFT_POSITION, TOP_RIGHT_POSITION, BACK_LEFT_POSITION, BACK_RIGHT_POSITION);
+    public SwerveModulePosition[] modulePositions = new SwerveModulePosition[] {
+        new SwerveModulePosition(),
+        new SwerveModulePosition(),
+        new SwerveModulePosition(),
+        new SwerveModulePosition()
+    };
+    public SwerveDriveKinematics kinematics = new SwerveDriveKinematics(TOP_LEFT_POSITION, TOP_RIGHT_POSITION, BACK_LEFT_POSITION, BACK_RIGHT_POSITION);
 
     private static final int TOP_LEFT_OFFSET = 1820-1024; //-208 + 1024;// 908-1024+2048; // -95
     private static final int BACK_LEFT_OFFSET = 1230-1024; //-747 + 1024;// -840;
@@ -225,7 +232,7 @@ public class SwerveDriveRewriteSubsystem extends SubsystemBase {
         rotationalMotors[module].set(ControlMode.Position, currTicks + deltaTicks + OFFSETS[module]);
     }
 
-    private SwerveModuleState[] getSwerveModuleStates() {
+    public SwerveModuleState[] getSwerveModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[4];
         for (int i = 0; i < 4; i++) {
             double encoderVelocity = driveMotors[i].getSelectedSensorVelocity() * METERS_PER_TICKS * 10;

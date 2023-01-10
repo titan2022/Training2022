@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
@@ -20,6 +22,7 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.RotateToCommand;
 import frc.robot.commands.TestDriveCommand;
 import frc.robot.commands.TranslationalDriveCommand;
+import frc.robot.subsystems.PoseEstimatorSubsystem;
 import frc.robot.subsystems.RotationalDrivebase;
 import frc.robot.subsystems.SwerveDriveRewriteSubsystem;
 
@@ -36,6 +39,10 @@ public class Robot extends TimedRobot {
 	private final SwerveDriveRewriteSubsystem drivebase = new SwerveDriveRewriteSubsystem();
 	private final XboxController xbox = new XboxController(0);
 	private final WPI_Pigeon2 pigeon = new WPI_Pigeon2(40);
+	private final PhotonCamera[] cameras = new PhotonCamera[] {
+		new PhotonCamera(null, null)
+	};
+	private final PoseEstimatorSubsystem poseEstimator = new PoseEstimatorSubsystem(cameras, drivebase, pigeon);
 
 	/**
 	 * This function is run when the robot is first started up and should be used

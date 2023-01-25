@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.PS4ArcadeDriveCommand;
 import frc.robot.commands.PS4TankDriveCommand;
 import frc.robot.commands.ArcadeDriveCommand;
@@ -22,8 +24,8 @@ import frc.robot.subsystems.DifferentialDriveSubsystemTraining;
  */
 public class Robot extends TimedRobot {
   DifferentialDriveSubsystemTraining drive = new DifferentialDriveSubsystemTraining();
-  XboxController xbox = new XboxController(0);
-  //PS4Controller ps4 = new PS4Controller(1);
+  //XboxController xbox = new XboxController(0);
+  PS4Controller ps4 = new PS4Controller(0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -65,10 +67,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     double maxSpd = 1.0;  // Maximum speed as a percent output (1.0=full speed)
-    new ArcadeDriveCommand(drive, xbox, maxSpd).schedule();
+    //new ArcadeDriveCommand(drive, xbox, maxSpd).schedule();
     //new TankDriveCommand(drive, xbox, maxSpd).schedule();
-    //new PS4ArcadeDriveCommand(drive, ps4, maxSpd).schedule();
+    new PS4ArcadeDriveCommand(drive, ps4, maxSpd).schedule();
     //new PS4TankDriveCommand(drive, ps4, maxSpd).schedule();
+    Trigger leftBumber = new JoystickButton(ps4, PS4Controller.Button.kL1.value);
+    Trigger rightBumper = new JoystickButton(ps4, PS4Controller.Button.kR1.value);
+    leftBumber.and(rightBumper.negate()).or(rightBumper.and(leftBumber.negate()))
+      .whenActive(new PS4ArcadeDriveCommand(drive, ps4, maxSpd));
+    leftBumber.and(rightBumper).whenActive(new PS4TankDriveCommand(drive, ps4, maxSpd));
   }
 
   /** This function is called periodically during operator control. */

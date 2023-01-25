@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DifferentialDriveSubsystemTraining;
 
@@ -20,7 +21,9 @@ public class PS4ArcadeDriveCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        SmartDashboard.putString("Drive mode", "Arcade - PS4");
+    }
 
     @Override
     public void execute() {
@@ -43,5 +46,6 @@ public class PS4ArcadeDriveCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drive.tank(0, 0);
+        SmartDashboard.putString("Drive mode", "None");
     }
 }
